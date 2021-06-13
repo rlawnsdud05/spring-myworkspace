@@ -12,13 +12,13 @@ import lombok.Data;
 //class와 테이블은 pascal-case -> snake-case로 맵핑
 //StudendInfo -> sutdent_info
 
-//필드와 컬럼은 camel-case -> snake-case로 맵핑
+// 필드와 컬럼은 camel-case -> snake-case로 맵핑
 // CreatedTime -> created_time
 
 //코드 설계에 따라 데이터베이스가 만들어지는 것 : auto-migration
 
 @Data
-@Entity
+@Entity // 개체 - 데이터베이스의 레코드이다. 하나의 정보 단위
 public class Todo {
 
 	// @Id -> 테이블의 primary key

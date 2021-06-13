@@ -8,6 +8,7 @@ public class SpringMyworkspaceApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(SpringMyworkspaceApplication.class, args);
+
 	}
 
 }

@@ -93,7 +93,7 @@ public class TodoController {
 	public Todo modifyTodo(@PathVariable int id, @RequestBody Todo todo, HttpServletResponse res) {
 
 		Optional<Todo> findedTodo = repo.findById(id);
-
+		
 		// 리소스가 없으면 404 에러를 띄워줌
 		if (findedTodo.isEmpty()) {
 			res.setStatus(HttpServletResponse.SC_NOT_FOUND);

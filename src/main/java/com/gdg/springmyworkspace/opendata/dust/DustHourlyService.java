@@ -28,10 +28,10 @@ public class DustHourlyService {
 	// 고정비율, ms(milli second 단위), 1000 = 1초
 	@SuppressWarnings("deprecation")
 	// @Scheduled(fixedRate = 1000 * 60 * 30) // 그냥 30분 마다
-	@Scheduled(cron = "0 30 * * * *")
+	@Scheduled(cron = "*/30 * * * * *")
 	public void requestDustHourlyData() throws IOException {
-		System.out.println(new Date().toLocaleString() + "---실행---");
-		// getDustHorulyData("PM10");
+		//System.out.println(new Date().toLocaleString() + "---실행---");
+		 //getDustHorulyData("PM10");
 	}
 
 	// 데이터를 요청하는 메서드
@@ -50,7 +50,7 @@ public class DustHourlyService {
 		builder.append("&returnType=JSON"); // 응답 데이터는 JSON 형식으로 받음
 		builder.append(serviceKey);
 
-		// System.out.println(builder.toString());
+		 System.out.println(builder.toString());
 
 		// 1. url주소로 접속 및 데이터 읽기;
 		URL url = new URL(builder.toString()); // 문자열로부터 URL 객체 생성// 제대로된 url이 아니면 프로그램이 종료되버리기 때문에 에러처리 강제

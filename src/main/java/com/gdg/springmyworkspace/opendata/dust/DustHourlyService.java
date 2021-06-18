@@ -27,7 +27,8 @@ public class DustHourlyService {
 	// @Scheduled(cron = "0 30 * * * *") // 매시 30분에 수집
 	// 고정비율, ms(milli second 단위), 1000 = 1초
 	@SuppressWarnings("deprecation")
-	@Scheduled(fixedRate = 1000 * 60 * 30) // 그냥 30분 마다
+	// @Scheduled(fixedRate = 1000 * 60 * 30) // 그냥 30분 마다
+	@Scheduled(cron = "0 30 * * * *")
 	public void requestDustHourlyData() throws IOException {
 		System.out.println(new Date().toLocaleString() + "---실행---");
 		// getDustHorulyData("PM10");
@@ -45,7 +46,7 @@ public class DustHourlyService {
 		builder.append("?itemCode=" + itemCode); // 아이템 코드
 		builder.append("&dataGubun=HOUR"); // 시간단위 조회
 		builder.append("&pageNo=1"); // 현재부터 가까운 페이지만 조회
-		builder.append("&numOfRows=24"); // 현재부터 24시간의 데이터 조회
+		builder.append("&numOfRows=1"); // 현재부터 24시간의 데이터 조회
 		builder.append("&returnType=JSON"); // 응답 데이터는 JSON 형식으로 받음
 		builder.append(serviceKey);
 

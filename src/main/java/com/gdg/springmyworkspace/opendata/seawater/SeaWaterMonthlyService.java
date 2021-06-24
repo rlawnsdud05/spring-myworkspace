@@ -32,17 +32,17 @@ public class SeaWaterMonthlyService {
 		final String[] SIDO_NM = { "강원", "경남", "경북", "부산", "울산", "인천", "전남", "전북", "제주", "충남" };
 		String[] RES_YEAR = { "2014", "2015", "2016", "2017", "2018", "2019", "2020" };
 		// 2014년자료부터~ 6,7,8월 자료 업데이트하는 달
-//		for (int i = 0; i < RES_YEAR.length; i++) {
-//			// System.out.println("cron 체크 : " + new SimpleDateFormat("HH시 mm분
-//			// ss초").format(new Date().getTime()));
-//			for (int j = 0; j < SIDO_NM.length; j++) {
-//				//int totalCount = getSeaWaterDataMonthlyData(SIDO_NM[j], RES_YEAR[i]);//totalCount가져오기
-//				getSeaWaterMonthlyData(SIDO_NM[j], RES_YEAR[i], 10);
-//			}
-//
-//		}
+		for (int i = 0; i < RES_YEAR.length; i++) {
+			// System.out.println("cron 체크 : " + new SimpleDateFormat("HH시 mm분
+			// ss초").format(new Date().getTime()));
+			for (int j = 0; j < SIDO_NM.length; j++) {
+				int totalCount = getSeaWaterDataMonthlyData(SIDO_NM[j], RES_YEAR[i]);//totalCount가져오기
+				getSeaWaterMonthlyData(SIDO_NM[j], RES_YEAR[i], totalCount);
+			}
+
+		}
 		
-		getSeaWaterMonthlyData("충남", "2016", 10);
+		//getSeaWaterMonthlyData("충남", "2016", 10);
 	}
 	
 	public int getSeaWaterDataMonthlyData(String SIDO_NM, String RES_YEAR) throws IOException {
@@ -114,25 +114,46 @@ public class SeaWaterMonthlyService {
 		
 		for(SeaWaterMonthlyResponse.Item item : response.getGetOceansBeachSeawaterInfo().getItem()) {
 			
-			if(item.getRes1().charAt(0) == '<') {
-				item.setRes1(item.getRes1().substring(1));
+			if(item.getRes_loc().equals("A")) {
+				
+			if(item.getRes1() == null) {
+				item.setRes1("");
+			}else {
+				
+				item.setRes1(item.getRes1().replaceAll("[^0-9]", ""));
 			}
-			else if(item.getRes2().charAt(0) == '<') {
-				item.setRes2(item.getRes2().substring(1));
-			}
-			System.out.println(item.getSido_nm());
-			System.out.println(item.getGugun_nm());
-			System.out.println(item.getSta_nm());
-			System.out.println(item.getRes_loc());
-			System.out.println(item.getRes1());
-			System.out.println(item.getRes2());
-			System.out.println(item.getRes_yn());
-			System.out.println(item.getRes_year());
-			System.out.println(item.getRes_date());
-			System.out.println(item.getLat());
-			System.out.println(item.getLon());
-			repo.save(new SeaWaterMonthly(item)); 
 			
+//			else if(item.getRes1().charAt(0) == '<') {
+//				item.setRes1(item.getRes1().substring(1));
+//			}	
+			
+			if (item.getRes2() == null) {
+				item.setRes2("");
+			}
+			else {
+				item.setRes2(item.getRes2().replaceAll("[^0-9]", ""));
+			}
+			
+			if(item.getRes_date() == null) {
+				item.setRes_date("모름");
+			}
+			
+			
+			
+			
+			System.out.println("시도명: " + item.getSido_nm());
+			System.out.println("구군명: " + item.getGugun_nm());
+			System.out.println("지점명: " + item.getSta_nm());
+			System.out.println("조사위치: " + item.getRes_loc());
+			System.out.println("장구균수: " + item.getRes1());
+			System.out.println("대장균수: " + item.getRes2());
+			System.out.println("적합여부판정: " + item.getRes_yn());
+			System.out.println("조사년도: " + item.getRes_year());
+			System.out.println("조사일자: " + item.getRes_date());
+			System.out.println("위도: " + item.getLat());
+			System.out.println("경도: " + item.getLon());
+			repo.save(new SeaWaterMonthly(item)); 
+			}
 			
 		}
 	}

@@ -6,6 +6,7 @@ import java.net.URL;
 import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
@@ -28,7 +29,12 @@ public class DustHourlyService {
 	// 고정비율, ms(milli second 단위), 1000 = 1초
 	@SuppressWarnings("deprecation")
 	// @Scheduled(fixedRate = 1000 * 60 * 30) // 그냥 30분 마다
-	@Scheduled(cron = "*/30 * * * * *")
+	@Scheduled(cron = "* 30 * * * *")
+	//@CacheEvict : 메서드가 실행될 때 해당 캐시를 삭제함
+	
+	//allEntries
+	//@CacheEvict(cacheNames = "dust-hourly", allEntries = true)
+	@CacheEvict(cacheNames = "dust-hourly", key = "0")
 	public void requestDustHourlyData() throws IOException {
 		//System.out.println(new Date().toLocaleString() + "---실행---");
 		 //getDustHorulyData("PM10");

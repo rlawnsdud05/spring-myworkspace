@@ -44,7 +44,8 @@ public class TodoController {
 	@GetMapping(value = "/todos")
 	public List<Todo> getTodoList() {
 
-		return repo.findAll();
+		// id값을 기준으로 역순정렬하는방법
+		return repo.findAll(Sort.by("id").descending());
 	}
 
 	// id값으로 데이터 한건 조회
@@ -93,7 +94,7 @@ public class TodoController {
 	public Todo modifyTodo(@PathVariable int id, @RequestBody Todo todo, HttpServletResponse res) {
 
 		Optional<Todo> findedTodo = repo.findById(id);
-		
+
 		// 리소스가 없으면 404 에러를 띄워줌
 		if (findedTodo.isEmpty()) {
 			res.setStatus(HttpServletResponse.SC_NOT_FOUND);
@@ -134,11 +135,19 @@ public class TodoController {
 	// /todos/paging/page=?&size=?
 	//
 	// HTTP GET 메서드로 데이터를 조회할 때 매개변수를 넘기는 방법
-	// key=value <- 매개변수를 Query String(질의 문자열)
-	// Spring에서는 @requestParam 어노테이션으로 해당 매개변수를 받는다.
 
+	// key=value <- 왼쪽형식의 데이터를 Query String(질의 문자열)이라고 한다.
+	// todos/paging?page=0&size=10
 	@GetMapping(value = "/todos/paging")
+	// Spring에서는 @requestParam 어노테이션으로 해당 매개변수를 받는다.
 	public Page<Todo> getTodoListPaging(@RequestParam int page, @RequestParam int size) {
+
+		// --LIMIT 건너띄기할 개수, 조회개수
+		// EX) LIMIT 1*10, 10
+		// ->page: 1 size: 10
+		// count(컬럼) 컬럼이 clusteredIndex가 아니면 성능이 떨어짐 *를 삽입하면 자동으로 clusteredIndex인 컬럼이
+		// 들어감
+		// findAll에 Pageable객체를 넣어주면 된다. PageRequest가 Pageable 인터페이스를 구현한 객체
 		return repo.findAll(PageRequest.of(page, size, Sort.by("id").descending()));
 	}
 

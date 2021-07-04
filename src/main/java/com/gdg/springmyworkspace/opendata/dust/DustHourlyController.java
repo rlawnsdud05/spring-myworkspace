@@ -17,6 +17,10 @@ public class DustHourlyController {
 		this.repo = repo;
 	}
 
+	// @Cacheable 리턴 객체를 캐시함
+	// cacheNames: 캐시할 객체의 명칭(임의로 정함)
+	// key: 캐시할 객체의 key
+	// @Cacheable(cacheNames = "dust-hourly", key = "0")
 	@RequestMapping(value = "/opendata/dust/hourly", method = RequestMethod.GET)
 	public List<DustHourly> getDustHourlyData() {
 

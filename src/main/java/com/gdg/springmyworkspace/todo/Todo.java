@@ -1,9 +1,19 @@
 package com.gdg.springmyworkspace.todo;
 
+//Aggregation Root 객체
+//하위의 여러개 객체를 포함하고 있는 객체
+//집합 뿌리 객체
+
+//예) order 주문정보 - orderDetail
+//
+import java.util.List;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 
 import lombok.Data;
 
@@ -28,4 +38,9 @@ public class Todo {
 	private int id;
 	private String memo;
 	private Long CreatedTime;
+
+	@OneToMany
+	// 연결할 컬럼을 선택한다.
+	@JoinColumn(name = "todoId")
+	private List<TodoComment> comments;
 }
